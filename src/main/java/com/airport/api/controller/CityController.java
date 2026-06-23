@@ -39,7 +39,7 @@ public class CityController {
 
     //PUT
     @PutMapping("/{id}")
-    public City updateCity(@PathVariable Long id, @RequestBody City updatedCity) {
+    public City updateCity(@PathVariable int id, @RequestBody City updatedCity) {
         City city = cityRepository.findById(id).orElse(null);
 
         if (city == null) {
@@ -55,7 +55,7 @@ public class CityController {
 
     //DELETE
     @DeleteMapping("/{id}")
-    public void deleteCity(@PathVariable Long id) {
+    public void deleteCity(@PathVariable int id) {
 
         if (!cityRepository.existsById(id)) {
             throw new RuntimeException("City not found");

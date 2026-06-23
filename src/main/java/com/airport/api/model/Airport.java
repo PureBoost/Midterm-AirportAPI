@@ -1,34 +1,32 @@
 package com.airport.api.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class City {
-    
+public class Airport {
+
+    public Airport() {
+    }
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
-    private String state;
-    private Integer population;
+    private String code;
 
-    public City() {
-    }
-
-    //Set Population as Integer to allow for null values.
-    public City(int id, String name, String state, Integer population) {
-        this.id = id;
-        this.name = name;
-        this.state = state;
-        this.population = population;
-    }
+    @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+        private City city;
 
     public int getId() {
         return id;
@@ -46,19 +44,24 @@ public class City {
         this.name = name;
     }
 
-    public String getState() {
-        return state;
+    public String getCode() {
+        return code;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public Integer getPopulation() {
-        return population;
+    public City getCity() {
+        return city;
     }
 
-    public void setPopulation(Integer population) {
-        this.population = population;
+    public void setCity(City city) {
+        this.city = city;
     }
+
+    public int getCityId() {
+        return city != null ? city.getId() : 0;
+    }
+
 }

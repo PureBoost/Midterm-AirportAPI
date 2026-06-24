@@ -47,7 +47,7 @@ public class PassengerController {
 
         passenger.setFirstName(updatedPassenger.getFirstName());
         passenger.setLastName(updatedPassenger.getLastName());
-        passenger.setEmail(updatedPassenger.getEmail());
+        passenger.setPhoneNumber(updatedPassenger.getPhoneNumber());
 
         return passengerRepository.save(passenger);
     }

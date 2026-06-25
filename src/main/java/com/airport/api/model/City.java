@@ -1,11 +1,14 @@
 package com.airport.api.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -13,7 +16,7 @@ public class City {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
     private String state;
@@ -23,18 +26,21 @@ public class City {
     }
 
     //Set Population as Integer to allow for null values.
-    public City(int id, String name, String state, Integer population) {
+    public City(Integer id, String name, String state, Integer population) {
         this.id = id;
         this.name = name;
         this.state = state;
         this.population = population;
     }
 
-    public int getId() {
+    @OneToMany(mappedBy = "city")
+    private List<Airport> airports;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

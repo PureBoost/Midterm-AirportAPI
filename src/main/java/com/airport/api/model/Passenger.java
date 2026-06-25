@@ -1,9 +1,14 @@
 package com.airport.api.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+
 
 @Entity
 public class Passenger {
@@ -24,6 +29,12 @@ public class Passenger {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
     }
+
+    @ManyToOne
+    private City city;
+
+    @ManyToMany
+    private List<Aircraft> aircraft;
 
     public Integer getId() {
         return id;

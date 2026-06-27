@@ -1,7 +1,7 @@
 package com.airport.api.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +28,10 @@ public class AirportController {
         this.cityRepository = cityRepository;
     }
 
-    //GET
+    //GET with pagination
     @GetMapping
-    public List<Airport> getAllAirports() {
-        return airportRepository.findAll();
+    public Page<Airport> getAllAirports(Pageable pageable) {
+        return airportRepository.findAll(pageable);
     }
 
     //POST

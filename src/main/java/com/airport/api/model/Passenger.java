@@ -1,9 +1,14 @@
 package com.airport.api.model;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Passenger {
@@ -25,6 +30,23 @@ public class Passenger {
         this.phoneNumber = phoneNumber;
     }
 
+    @ManyToMany
+    @JoinTable(
+        name = "passenger_aircraft",
+        joinColumns = @JoinColumn(name = "passenger_id"),
+        inverseJoinColumns = @JoinColumn(name = "aircraft_id")
+    )
+
+    private List<Aircraft> aircraft;
+
+
+    public List<Aircraft> getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(List<Aircraft> aircraft) {
+        this.aircraft = aircraft;
+    }
     public Integer getId() {
         return id;
     }

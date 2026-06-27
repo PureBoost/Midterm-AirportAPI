@@ -1,11 +1,17 @@
 package com.airport.api.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -21,6 +27,18 @@ public class Aircraft {
 
     public Aircraft() {
     }
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "aircraft")
+    private List<Passenger> passengers;
+
+    @ManyToMany
+    @JoinTable(
+    name = "aircraft_airport",
+    joinColumns = @JoinColumn(name = "aircraft_id"),
+    inverseJoinColumns = @JoinColumn(name = "airport_id")
+)
+private List<Airport> airports;
 
     public Aircraft(String type, String airlineName, Integer numberOfPassengers) {
         this.type = type;
@@ -58,5 +76,21 @@ public class Aircraft {
 
     public void setNumberOfPassengers(Integer numberOfPassengers) {
         this.numberOfPassengers = numberOfPassengers;
+    }
+
+    public List<Passenger> getPassengers() {
+        return passengers;
+    }
+
+    public void setPassengers(List<Passenger> passengers) {
+        this.passengers = passengers;
+    }
+
+    public List<Airport> getAirports() {
+        return airports;
+    }
+
+    public void setAirports(List<Airport> airports) {
+        this.airports = airports;
     }
 }

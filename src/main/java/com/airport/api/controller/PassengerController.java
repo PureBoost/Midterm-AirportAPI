@@ -1,5 +1,6 @@
 package com.airport.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.airport.api.model.Aircraft;
 import com.airport.api.model.Passenger;
+import com.airport.api.repository.AircraftRepository;
 import com.airport.api.repository.PassengerRepository;
 
 @RestController
@@ -19,9 +22,11 @@ import com.airport.api.repository.PassengerRepository;
 public class PassengerController {
 
     private final PassengerRepository passengerRepository;
+    private final AircraftRepository aircraftRepository;
 
-    public PassengerController(PassengerRepository passengerRepository) {
+    public PassengerController(PassengerRepository passengerRepository, AircraftRepository aircraftRepository) {
         this.passengerRepository = passengerRepository;
+        this.aircraftRepository = aircraftRepository;
     }
 
     //GET
@@ -32,7 +37,22 @@ public class PassengerController {
 
     //POST
     @PostMapping
-    public Passenger createPassenger(@RequestBody Passenger passenger) {
+        public Passenger createPassenger(@RequestBody Passenger passenger) {
+
+            if (passenger.getAircraft() != null) {
+
+                List<Aircraft> fullAircraftList = new ArrayList<>();
+
+                for (Aircraft a : passenger.getAircraft()) {
+                    Aircraft fullAircraft = aircraftRepository.findById(a.getId())
+                        .orElseThrow(() -> new RuntimeException("Aircraft not found: " + a.getId()));
+
+                    fullAircraftList.add(fullAircraft);
+                }
+
+                passenger.setAircraft(fullAircraftList);
+            }
+
         return passengerRepository.save(passenger);
     }
 

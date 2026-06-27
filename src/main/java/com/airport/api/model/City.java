@@ -13,7 +13,7 @@ public class City {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
     private String state;
@@ -23,18 +23,18 @@ public class City {
     }
 
     //Set Population as Integer to allow for null values.
-    public City(int id, String name, String state, Integer population) {
+    public City(Integer id, String name, String state, Integer population) {
         this.id = id;
         this.name = name;
         this.state = state;
         this.population = population;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

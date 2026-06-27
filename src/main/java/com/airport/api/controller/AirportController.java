@@ -12,18 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.airport.api.model.Airport;
+import com.airport.api.model.City;
 import com.airport.api.repository.AirportRepository;
+import com.airport.api.repository.CityRepository;
 
 @RestController
 @RequestMapping("/api/airports")
 public class AirportController {
     
     private final AirportRepository airportRepository;
-    
+    private final CityRepository cityRepository;
 
-    public AirportController(AirportRepository airportRepository) {
-    this.airportRepository = airportRepository;
-}
+    public AirportController(AirportRepository airportRepository, CityRepository cityRepository) {
+        this.airportRepository = airportRepository;
+        this.cityRepository = cityRepository;
+    }
 
     //GET
     @GetMapping
@@ -34,8 +37,16 @@ public class AirportController {
     //POST
     @PostMapping
     public Airport createAirport(@RequestBody Airport airport) {
+
+    if (airport.getCity() != null && airport.getCity().getId() != null) {
+            City city = cityRepository.findById(airport.getCity().getId())
+                .orElseThrow(() -> new RuntimeException("City not found"));
+
+            airport.setCity(city);
+        }
+        
         return airportRepository.save(airport);
-}
+    }
 
     //PUT
     @PutMapping("/{id}")

@@ -1,12 +1,15 @@
 package com.airport.api.model;
 
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -27,6 +30,10 @@ public class Airport {
     @ManyToOne
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
         private City city;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "airports")
+        private List<Aircraft> aircraft;
 
     public int getId() {
         return id;
@@ -62,6 +69,14 @@ public class Airport {
 
     public int getCityId() {
         return city != null ? city.getId() : 0;
+    }
+
+    public List<Aircraft> getAircraft() {
+        return aircraft;
+    }
+
+    public void setAircraft(List<Aircraft> aircraft) {
+        this.aircraft = aircraft;
     }
 
 }

@@ -37,8 +37,9 @@ public class Aircraft {
     name = "aircraft_airport",
     joinColumns = @JoinColumn(name = "aircraft_id"),
     inverseJoinColumns = @JoinColumn(name = "airport_id")
-)
-private List<Airport> airports;
+    )
+    
+    private List<Airport> airports;
 
     public Aircraft(String type, String airlineName, Integer numberOfPassengers) {
         this.type = type;
